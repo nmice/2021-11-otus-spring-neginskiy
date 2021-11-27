@@ -1,11 +1,23 @@
 package ru.otus.spring;
 
-import java.util.Scanner;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.otus.spring.service.QuestionService;
+
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String fileName = "questions.csv";
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+        QuestionService service = context.getBean(QuestionService.class);
+
+        List<String> questions = service.getAllQuestions();
+        List<String> answers = service.getAllAnswers();
+
+        System.out.println("QUESTIONS:");
+        questions.forEach(System.out::println);
+
+        System.out.println("\r\nANSWERS:");
+        answers.forEach(System.out::println);
     }
 }
