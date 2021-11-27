@@ -45,9 +45,8 @@ public class QuestionDaoCsv implements QuestionDao {
 
     private List<Question> getQuestionsDataFromCsv() {
         try {
-            System.out.println("1"+questionsResource.toString());
-            System.out.println("2"+questionsResource.getFile().toString());
-            System.out.println("3"+questionsResource.getFile().getName());
+            System.out.println("questionsResource: "+questionsResource.toString());
+            System.out.println("questionsResource.getFile(): "+questionsResource.getFile().toString());
             return (List<Question>) new CsvToBeanBuilder(new FileReader(questionsResource.getFile()))
                     .withType(Question.class)
                     .build()
