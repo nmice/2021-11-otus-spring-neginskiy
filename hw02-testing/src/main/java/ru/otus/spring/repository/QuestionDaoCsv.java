@@ -1,6 +1,7 @@
 package ru.otus.spring.repository;
 
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.model.Question;
@@ -14,7 +15,7 @@ public class QuestionDaoCsv implements QuestionDao {
 
     private final Resource questionsResource;
 
-    public QuestionDaoCsv(Resource questionsResource) {
+    public QuestionDaoCsv(@Value("classpath:questions.csv") Resource questionsResource) {
         this.questionsResource = questionsResource;
     }
 
