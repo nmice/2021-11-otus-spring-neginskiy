@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import ru.otus.spring.model.Question;
 import ru.otus.spring.repository.QuestionDao;
 
 import java.util.List;
@@ -13,17 +14,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public String getCorrectAnswer(String question) {
-        return dao.findAnswerByQuestion(question);
-    }
-
-    @Override
-    public List<String> getAllQuestions() {
+    public List<Question> getAllQuestions() {
         return dao.findAllQuestions();
-    }
-
-    @Override
-    public List<String> getAllAnswers() {
-        return dao.findAllAnswers();
     }
 }
