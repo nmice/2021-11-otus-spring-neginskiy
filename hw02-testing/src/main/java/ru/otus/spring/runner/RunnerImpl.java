@@ -1,5 +1,6 @@
 package ru.otus.spring.runner;
 
+import org.springframework.stereotype.Component;
 import ru.otus.spring.model.Question;
 import ru.otus.spring.service.InputOutputService;
 import ru.otus.spring.service.InputOutputServiceImpl;
@@ -7,6 +8,7 @@ import ru.otus.spring.service.QuestionService;
 
 import java.util.List;
 
+@Component
 public class RunnerImpl implements Runner {
 
     private final QuestionService service;

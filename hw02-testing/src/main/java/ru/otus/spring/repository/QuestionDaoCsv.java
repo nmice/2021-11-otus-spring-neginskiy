@@ -2,12 +2,14 @@ package ru.otus.spring.repository;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Repository;
 import ru.otus.spring.model.Question;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+@Repository("csvDao")
 public class QuestionDaoCsv implements QuestionDao {
 
     private final Resource questionsResource;

@@ -1,15 +1,18 @@
 package ru.otus.spring.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import ru.otus.spring.model.Question;
 import ru.otus.spring.repository.QuestionDao;
 
 import java.util.List;
 
+@Service
 public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionDao dao;
 
-    public QuestionServiceImpl(QuestionDao dao) {
+    public QuestionServiceImpl(@Qualifier(value = "csvDao") QuestionDao dao) {
         this.dao = dao;
     }
 
