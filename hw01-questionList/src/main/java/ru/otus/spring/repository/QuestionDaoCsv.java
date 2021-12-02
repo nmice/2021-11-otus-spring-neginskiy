@@ -4,8 +4,8 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.core.io.Resource;
 import ru.otus.spring.model.Question;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,14 +45,12 @@ public class QuestionDaoCsv implements QuestionDao {
 
     private List<Question> getQuestionsDataFromCsv() {
         try {
-            System.out.println("questionsResource: "+questionsResource.toString());
-            System.out.println("questionsResource.getFile(): "+questionsResource.getFile().toString());
-            return (List<Question>) new CsvToBeanBuilder(new FileReader(questionsResource.getFile()))
+            return new CsvToBeanBuilder(new InputStreamReader(questionsResource.getInputStream()))
                     .withType(Question.class)
                     .build()
                     .parse();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read data from CSV file");
+            throw new RuntimeException("Failed to read data from CSV file", e);
         }
     }
 }
