@@ -12,5 +12,6 @@
 
     <modules>
         <module>hw01-questionList</module>
+        <module>hw02-testing</module>
     </modules>
 </project>
