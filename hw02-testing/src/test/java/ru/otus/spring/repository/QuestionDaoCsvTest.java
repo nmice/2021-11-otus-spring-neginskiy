@@ -39,5 +39,4 @@ class QuestionDaoCsvTest {
         assertEquals(4, list.get(3).getId());
         assertEquals(5, list.get(4).getId());
     }
-
 }

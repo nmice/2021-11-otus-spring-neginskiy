@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 @PropertySource("classpath:app.properties")
-@Repository("csvDao")
+@Repository
 public class QuestionDaoCsv implements QuestionDao {
 
     private final Resource questionsResource;
