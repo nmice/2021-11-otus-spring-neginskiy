@@ -2,7 +2,18 @@ package ru.otus.spring.model;
 
 import com.opencsv.bean.CsvBindByPosition;
 
+import java.util.Objects;
+
 public class Question {
+
+    public Question() {
+    }
+
+    public Question(String question, String answer, int id) {
+        this.question = question;
+        this.answer = answer;
+        this.id = id;
+    }
 
     @CsvBindByPosition(position = 0)
     private String question;
@@ -35,6 +46,21 @@ public class Question {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question1 = (Question) o;
+        return id == question1.id &&
+                Objects.equals(question, question1.question) &&
+                Objects.equals(answer, question1.answer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(question, answer, id);
     }
 
     @Override
