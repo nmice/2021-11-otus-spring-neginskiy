@@ -12,7 +12,7 @@ import java.util.Locale;
 public class MessageConfig {
 
     @Bean
-    public Locale localeProvider(@Value("${locale.tag}") String localeTag) {
+    public Locale localeProvider(@Value("${locale-tag}") String localeTag) {
         return new Locale(localeTag);
     }
 

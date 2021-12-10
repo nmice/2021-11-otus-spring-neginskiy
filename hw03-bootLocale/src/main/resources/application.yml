@@ -4,8 +4,7 @@ spring:
     encoding: utf-8
     fallback-to-system-locale: false
 
-locale:
-  tag: "ru_RU"
+locale-tag: "en_EN"
 
 csvfile:
   path: "questions.csv"

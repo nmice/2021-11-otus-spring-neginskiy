@@ -13,8 +13,8 @@ public class MessageServiceImpl implements MessageService {
     private final Locale localeProvider;
     private final MessageSource messageSourceProvider;
 
-    public MessageServiceImpl(@Qualifier("localeProvider") Locale locale,
-                              @Qualifier("messageSourceProvider") MessageSource messageSource) {
+    public MessageServiceImpl(Locale locale,
+                              MessageSource messageSource) {
         this.messageSourceProvider = messageSource;
         this.localeProvider = locale;
     }
