@@ -1,9 +1,11 @@
-package ru.otus.spring.service;
+package ru.otus.spring.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.model.Student;
+import ru.otus.spring.service.InputOutputService;
+import ru.otus.spring.service.StudentService;
 
 import java.io.IOException;
 

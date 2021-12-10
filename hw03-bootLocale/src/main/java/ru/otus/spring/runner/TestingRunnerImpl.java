@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.model.Question;
 import ru.otus.spring.model.Student;
 import ru.otus.spring.model.TestResult;
-import ru.otus.spring.service.InputOutputService;
-import ru.otus.spring.service.QuestionService;
-import ru.otus.spring.service.ResultService;
-import ru.otus.spring.service.StudentService;
+import ru.otus.spring.service.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,19 +19,21 @@ public class TestingRunnerImpl implements TestingRunner {
     private final InputOutputService inputOutputService;
     private final StudentService studentService;
     private final ResultService resultService;
+    private final MessageService messageService;
 
-    public TestingRunnerImpl(QuestionService service, InputOutputService inputOutputService, StudentService studentService, ResultService resultService) {
+    public TestingRunnerImpl(QuestionService service, InputOutputService inputOutputService, StudentService studentService, ResultService resultService, MessageService messageService) {
         this.service = service;
         this.inputOutputService = inputOutputService;
         this.studentService = studentService;
         this.resultService = resultService;
+        this.messageService = messageService;
     }
 
     @Override
     public void run() {
         List<Question> questions = service.getAllQuestions();
         Student student = studentService.inputStudentData();
-        inputOutputService.output("LETS GO TEST");
+        inputOutputService.output(messageService.getMessage("hello"));
         String answerList = getAnswerList(questions);
         Collections.shuffle(questions);
         var testResult = new TestResult(student, questions.size());
