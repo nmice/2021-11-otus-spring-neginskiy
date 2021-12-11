@@ -23,7 +23,7 @@ public class QuestionDaoCsv implements QuestionDao {
 
     @Override
     public List<Question> findAllQuestions() {
-        String localeName = localeProvider.getDisplayName();
+        String localeName = localeProvider.toString();
         String fileName = props.getCsvfiles().get(localeName);
         InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
         return new CsvToBeanBuilder<Question>(new InputStreamReader(is))

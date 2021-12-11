@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "testing")
 @Component
+@ConfigurationProperties(prefix = "testing")
 public class AppProps {
 
     private Map<String, String> csvfiles;

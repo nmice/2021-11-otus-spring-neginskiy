@@ -50,7 +50,7 @@ public class TestingRunnerImpl implements TestingRunner {
         try {
             answerId = Integer.parseInt(inputOutputService.input());
         } catch (Exception e) {
-            inputOutputService.output("Failed to input number of answer");
+            inputOutputService.output(messageService.getMessage("failed.input.number"));
             log.error("Failed to input number of answer", e);
         }
         return answerId;

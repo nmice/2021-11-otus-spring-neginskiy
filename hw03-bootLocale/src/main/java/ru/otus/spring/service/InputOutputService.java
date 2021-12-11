@@ -1,12 +1,8 @@
 package ru.otus.spring.service;
 
-import java.io.IOException;
-
 public interface InputOutputService {
 
-    String input() throws IOException;
+    String input();
 
     void output(String s);
-
-    void output(Object... s);
 }
