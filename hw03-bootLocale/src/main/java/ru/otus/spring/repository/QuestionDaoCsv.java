@@ -1,33 +1,34 @@
 package ru.otus.spring.repository;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
+import ru.otus.spring.config.AppProps;
 import ru.otus.spring.model.Question;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Locale;
 
 @Repository
 public class QuestionDaoCsv implements QuestionDao {
 
-    private final Resource questionsResource;
+    private final Locale localeProvider;
+    private final AppProps props;
 
-    public QuestionDaoCsv(@Value("${csvfile.path}") Resource questionsResource) {
-        this.questionsResource = questionsResource;
+    public QuestionDaoCsv(Locale localeProvider, AppProps props) {
+        this.localeProvider = localeProvider;
+        this.props = props;
     }
 
     @Override
     public List<Question> findAllQuestions() {
-        try {
-            return new CsvToBeanBuilder<Question>(new InputStreamReader(questionsResource.getInputStream()))
-                    .withType(Question.class)
-                    .build()
-                    .parse();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read data from CSV file", e);
-        }
+        String localeName = localeProvider.getDisplayName();
+        String fileName = props.getCsvfiles().get(localeName);
+        InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
+        return new CsvToBeanBuilder<Question>(new InputStreamReader(is))
+                .withType(Question.class)
+                .build()
+                .parse();
     }
 }

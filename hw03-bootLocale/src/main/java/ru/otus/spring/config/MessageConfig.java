@@ -11,6 +11,8 @@ import java.util.Locale;
 @Configuration
 public class MessageConfig {
 
+    private AppProps config;
+
     @Bean
     public Locale localeProvider(@Value("${locale-tag}") String localeTag) {
         return new Locale(localeTag);
