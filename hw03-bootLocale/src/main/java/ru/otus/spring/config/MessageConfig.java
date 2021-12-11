@@ -11,8 +11,13 @@ import java.util.Locale;
 @Configuration
 public class MessageConfig {
 
+    public static final String DEFAULT_LOCALE_TAG = "en_EN";
+
     @Bean
     public Locale localeProvider(@Value("${locale-tag}") String localeTag) {
+        if (!localeTag.contains("_")) {
+            localeTag = DEFAULT_LOCALE_TAG;
+        }
         String[] localeParams = localeTag.split("_");
         return new Locale(localeParams[0], localeParams[1]);
     }
