@@ -1,5 +1,8 @@
 package ru.otus.spring.model;
 
+import lombok.Getter;
+
+@Getter
 public class Student {
 
     private final String firstname;

@@ -1,4 +1,4 @@
-package ru.otus.spring.repository;
+package ru.otus.spring.dao;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.stereotype.Repository;
