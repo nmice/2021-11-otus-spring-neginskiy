@@ -17,7 +17,6 @@ public class MessageServiceImpl implements MessageService {
                               MessageSource messageSource) {
         this.messageSourceProvider = messageSource;
         this.locale = props.getLocale();
-        System.out.println(locale);
     }
 
     public String getMessage(String message) {
