@@ -31,7 +31,6 @@ public class AppProps {
     }
 
     public Locale getLocale() {
-        String[] localeParams = localeTag.split("_");
-        return new Locale(localeParams[0], localeParams[1]);
+        return Locale.forLanguageTag(localeTag);
     }
 }

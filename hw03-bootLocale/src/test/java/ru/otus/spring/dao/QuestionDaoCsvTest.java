@@ -29,8 +29,8 @@ class QuestionDaoCsvTest {
     @DisplayName("Должен возвращать список вопросов из csv-файла в заданной локали")
     @Test
     void findAllQuestionsTest() {
-        Mockito.when(props.getCsvfiles()).thenReturn(Map.of("en_EN", "questions-test.csv"));
-        Mockito.when(props.getLocaleTag()).thenReturn("en_EN");
+        Mockito.when(props.getCsvfiles()).thenReturn(Map.of("en", "questions-test.csv"));
+        Mockito.when(props.getLocaleTag()).thenReturn("en");
         List<Question> expectedQuestionList = buildQuestionList();
         List<Question> actualQuestionList = questionDao.findAllQuestions();
         assertEquals(expectedQuestionList, actualQuestionList);
