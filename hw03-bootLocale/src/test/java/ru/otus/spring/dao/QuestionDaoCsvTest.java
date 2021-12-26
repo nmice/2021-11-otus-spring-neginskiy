@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.spring.config.AppProps;
+import ru.otus.spring.config.FileNameProviderImpl;
 import ru.otus.spring.model.Question;
 
 import java.util.Arrays;
@@ -21,12 +21,12 @@ class QuestionDaoCsvTest {
     private QuestionDaoCsv questionDao;
 
     @MockBean
-    private AppProps props;
+    private FileNameProviderImpl fileNameProvider;
 
     @DisplayName("Должен возвращать список вопросов из csv-файла")
     @Test
     void findAllQuestionsTest() {
-        Mockito.when(props.getFileName()).thenReturn("questions-test.csv");
+        Mockito.when(fileNameProvider.getFileName()).thenReturn("questions-test.csv");
         List<Question> expectedQuestionList = buildQuestionList();
         List<Question> actualQuestionList = questionDao.findAllQuestions();
         assertEquals(expectedQuestionList, actualQuestionList);

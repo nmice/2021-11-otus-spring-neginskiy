@@ -1,5 +1,6 @@
 package ru.otus.spring.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.service.InputOutputService;
 
@@ -10,17 +11,17 @@ import java.util.Scanner;
 @Service
 public class InputOutputServiceImpl implements InputOutputService {
 
-    private final InputStream in;
+    private final Scanner scanner;
     private final PrintStream out;
 
-    public InputOutputServiceImpl() {
-        this.in = System.in;
-        this.out = System.out;
+    public InputOutputServiceImpl(@Value("#{ T(java.lang.System).in}") InputStream in,
+                                  @Value("#{ T(java.lang.System).out}") PrintStream out) {
+        this.scanner = new Scanner(in);
+        this.out = out;
     }
 
     @Override
     public String input() {
-        Scanner scanner = new Scanner(in);
         return scanner.nextLine();
     }
 

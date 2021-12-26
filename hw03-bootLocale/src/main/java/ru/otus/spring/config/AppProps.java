@@ -33,8 +33,4 @@ public class AppProps {
     public Locale getLocale() {
         return Locale.forLanguageTag(localeTag);
     }
-
-    public String getFileName() {
-        return csvFiles.get(localeTag);
-    }
 }
