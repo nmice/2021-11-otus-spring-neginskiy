@@ -12,7 +12,7 @@ public class AppProps {
 
     private String localeTag;
 
-    private Map<String, String> csvfiles;
+    private Map<String, String> csvFiles;
 
     public String getLocaleTag() {
         return localeTag;
@@ -22,15 +22,19 @@ public class AppProps {
         this.localeTag = localeTag;
     }
 
-    public Map<String, String> getCsvfiles() {
-        return csvfiles;
+    public Map<String, String> getCsvFiles() {
+        return csvFiles;
     }
 
-    public void setCsvfiles(Map<String, String> csvfiles) {
-        this.csvfiles = csvfiles;
+    public void setCsvFiles(Map<String, String> csvFiles) {
+        this.csvFiles = csvFiles;
     }
 
     public Locale getLocale() {
         return Locale.forLanguageTag(localeTag);
+    }
+
+    public String getFileName() {
+        return csvFiles.get(localeTag);
     }
 }

@@ -5,7 +5,7 @@ spring:
     fallback-to-system-locale: false
 
 testing:
-  locale-tag: "en"
-  csvfiles:
+  locale-tag: "ru"
+  csv-files:
     en: questions.csv
     ru: questions_ru.csv

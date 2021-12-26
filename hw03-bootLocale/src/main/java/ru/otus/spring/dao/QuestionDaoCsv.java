@@ -12,15 +12,14 @@ import java.util.List;
 @Repository
 public class QuestionDaoCsv implements QuestionDao {
 
-    private final AppProps props;
+    private final String fileName;
 
     public QuestionDaoCsv(AppProps props) {
-        this.props = props;
+        this.fileName = props.getFileName();
     }
 
     @Override
     public List<Question> findAllQuestions() {
-        String fileName = props.getCsvfiles().get(props.getLocaleTag());
         InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
         return new CsvToBeanBuilder<Question>(new InputStreamReader(is))
                 .withType(Question.class)

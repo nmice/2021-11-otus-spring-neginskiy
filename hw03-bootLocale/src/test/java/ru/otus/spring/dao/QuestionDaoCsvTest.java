@@ -5,19 +5,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.spring.config.AppProps;
 import ru.otus.spring.model.Question;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@TestConfiguration("application-test")
 class QuestionDaoCsvTest {
 
     @Autowired
@@ -26,11 +23,10 @@ class QuestionDaoCsvTest {
     @MockBean
     private AppProps props;
 
-    @DisplayName("Должен возвращать список вопросов из csv-файла в заданной локали")
+    @DisplayName("Должен возвращать список вопросов из csv-файла")
     @Test
     void findAllQuestionsTest() {
-        Mockito.when(props.getCsvfiles()).thenReturn(Map.of("en", "questions-test.csv"));
-        Mockito.when(props.getLocaleTag()).thenReturn("en");
+        Mockito.when(props.getFileName()).thenReturn("questions-test.csv");
         List<Question> expectedQuestionList = buildQuestionList();
         List<Question> actualQuestionList = questionDao.findAllQuestions();
         assertEquals(expectedQuestionList, actualQuestionList);
