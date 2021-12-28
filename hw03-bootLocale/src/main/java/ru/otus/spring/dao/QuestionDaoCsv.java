@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.otus.spring.config.FileNameProvider;
 import ru.otus.spring.model.Question;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -21,10 +22,13 @@ public class QuestionDaoCsv implements QuestionDao {
     @Override
     public List<Question> findAllQuestions() {
         String fileName = fileNameProvider.getFileName();
-        InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
-        return new CsvToBeanBuilder<Question>(new InputStreamReader(is))
-                .withType(Question.class)
-                .build()
-                .parse();
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(fileName)) {
+            return new CsvToBeanBuilder<Question>(new InputStreamReader(is))
+                    .withType(Question.class)
+                    .build()
+                    .parse();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read data from CSV file", e);
+        }
     }
 }
