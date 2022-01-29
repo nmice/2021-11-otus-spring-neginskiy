@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.otus.spring</groupId>
-    <artifactId>testing</artifactId>
+    <artifactId>hw03-bootLocale</artifactId>
     <version>1.0</version>
-    <name>testing</name>
+    <name>hw03-bootLocale</name>
     <properties>
         <java.version>11</java.version>
     </properties>
