@@ -1,0 +1,14 @@
+spring:
+    shell:
+        interactive:
+            enabled: false
+        script:
+            spring:
+                shell:
+                    script: false
+    main:
+        allow-circular-references: true
+testing:
+    locale-tag: "en"
+    csv-files:
+        en: questions-test.csv
