@@ -33,8 +33,7 @@ public class TestingCommands {
     }
 
     @ShellMethod(value = "Introduce your fullname with hints", key = {"i", "in", "introduce"})
-    public String introduce(@ShellOption(defaultValue = "Студент Обыкновенный") String secondname) {
-        student.setSecondname(secondname);
+    public String introduce() {
         student = studentService.inputStudentData();
         return messageService.getMessage("fullname.ok", student.getFirstname(), student.getSecondname());
     }
@@ -46,9 +45,9 @@ public class TestingCommands {
     }
 
     private Availability isTestingCommandAvailable() {
-        if (student.getFirstname() == null) {
+        if (student.getFirstname() == null || student.getFirstname().isEmpty()) {
             return Availability.unavailable(messageService.getMessage("firstname.invalid"));
-        } else if (student.getSecondname() == null) {
+        } else if (student.getSecondname() == null || student.getSecondname().isEmpty()) {
             return Availability.unavailable(messageService.getMessage("secondname.invalid"));
         } else {
             return Availability.available();
