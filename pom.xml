@@ -15,5 +15,6 @@
         <module>hw02-testing</module>
         <module>hw03-bootLocale</module>
         <module>hw04-shell</module>
+        <module>hw05-jdbc</module>
     </modules>
 </project>
