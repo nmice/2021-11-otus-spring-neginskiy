@@ -1,0 +1,13 @@
+spring:
+  messages:
+    basename: "i18n/messages"
+    encoding: utf-8
+    fallback-to-system-locale: false
+  main:
+    allow-circular-references: true
+
+testing:
+  locale-tag: "en"
+  csv-files:
+    en: questions.csv
+    ru: questions_ru.csv

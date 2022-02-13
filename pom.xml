@@ -13,5 +13,7 @@
     <modules>
         <module>hw01-questionList</module>
         <module>hw02-testing</module>
+        <module>hw03-bootLocale</module>
+        <module>hw04-shell</module>
     </modules>
 </project>
