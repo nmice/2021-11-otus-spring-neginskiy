@@ -1,16 +1,18 @@
 package ru.otus.spring.dao;
 
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.stereotype.Repository;
 import ru.otus.spring.domain.Book;
 
-@Repository
-public class BookDao {
+import java.util.List;
 
-    private NamedParameterJdbcOperations jdbcOperations;
+public interface BookDao {
 
-    public void save(Book book) {
-        jdbcOperations.update("insert into books values(name=:name,genre=:genre,author=:author)",
-                book.getName(), book.getGenre(), book.getName());
-    }
+    int count();
+
+    void insert(Book book);
+
+    Book getById(long id);
+
+    List<Book> getAll();
+
+    void deleteById(long id);
 }

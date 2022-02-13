@@ -23,7 +23,7 @@ public class BookCommands {
         return "Book " + name + " saved";
     }
 
-    @ShellMethod(value = "Input second command", key = {"bg", "bookgenre"})
+/*    @ShellMethod(value = "Input second command", key = {"bg", "bookgenre"})
     public String inputSecondName(@ShellOption(defaultValue = "Обыкновенный") String secondname) {
         student.setSecondname(secondname);
         return messageService.getMessage("secondname.ok", secondname);
@@ -49,5 +49,5 @@ public class BookCommands {
         } else {
             return Availability.available();
         }
-    }
+    }*/
 }
