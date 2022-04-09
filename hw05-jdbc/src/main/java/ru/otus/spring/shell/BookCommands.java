@@ -1,10 +1,8 @@
 package ru.otus.spring.shell;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellMethodAvailability;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.domain.Book;
 
@@ -12,15 +10,12 @@ import ru.otus.spring.domain.Book;
 @RequiredArgsConstructor
 public class BookCommands {
 
-    private Book book = new Book();
-
-    @ShellMethod(value = "Input book name command", key = {"ib", "insert book"})
-    public String save(@ShellOption String name, @ShellOption String genre, @ShellOption String author) {
-
-        book.setName(name);
+    @ShellMethod(value = "Add book in library", key = {"ab", "add book"})
+    public String addBook(@ShellOption String name, @ShellOption String genre, @ShellOption String author) {
+        Book book = new Book();
+        book.setTitle(name);
         book.setAuthorId(1);
         book.setGenreId(1);
-
         return "Book " + name + " saved";
     }
 

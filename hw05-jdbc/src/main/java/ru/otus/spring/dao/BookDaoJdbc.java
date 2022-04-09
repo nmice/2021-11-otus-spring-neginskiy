@@ -3,12 +3,13 @@ package ru.otus.spring.dao;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,56 +22,77 @@ public class BookDaoJdbc implements BookDao {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
     }
 
+    public long getNextId() {
+        var jdbc = namedParameterJdbcOperations.getJdbcOperations();
+        return jdbc.queryForObject("select next value for BOOK_SEQUENCE", Long.class);
+    }
+
     @Override
     public int count() {
-        Integer count = namedParameterJdbcOperations.queryForObject(
-                "select count(*) from Books",
-                new HashMap<>(),
-                Integer.class);
-        return count == null ? 0 : count;
+        var jdbc = namedParameterJdbcOperations.getJdbcOperations();
+        return jdbc.queryForObject("select count(*) from BOOKS", Integer.class);
     }
 
     @Override
     public void insert(Book book) {
+        Map<String, Object> params = Map.of(
+                "id", book.getId(),
+                "name", book.getTitle(),
+                "author_id", book.getAuthor().getId(),
+                "genre_id", book.getGenre().getId());
         namedParameterJdbcOperations.update(
-                "insert into Books (id, name, author, genre) values(:id,:name,:genre,:author)",
-                Map.of("id", book.getId(),
-                        "name", book.getName(),
-                        "genre", book.getGenreId(),
-                        "author", book.getAuthorId())
-        );
+                "insert into BOOKS (ID, BOOK_NAME, AUTHOR_ID, GENRE_ID) values (:id, :name, :author_id, :genre_id)", params);
     }
 
     @Override
     public Book getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return namedParameterJdbcOperations.queryForObject(
-                "select id, name, author, genre from Books where id - :id", params, new BookMapper()
+                "select b.ID, b.BOOK_NAME, " +
+                        "a.ID as AUTHOR_ID, a.AUTHOR_NAME, " +
+                        "g.ID as GENRE_ID, g.GENRE_NAME " +
+                        "from BOOKS b " +
+                        "inner join AUTHORS a " +
+                        "on a.ID = b.AUTHOR_ID " +
+                        "inner join GENRES g " +
+                        "on g.ID = b.GENRE_ID " +
+                        "where b.ID = :id", params,
+                new BookMapper()
         );
     }
 
     @Override
     public List<Book> getAll() {
-        return namedParameterJdbcOperations.query("select id, name, author, genre from Books", new BookMapper());
+        return namedParameterJdbcOperations.query(
+                "select b.ID, b.BOOK_NAME, " +
+                        "b.AUTHOR_ID, a.AUTHOR_NAME, " +
+                        "b.GENRE_ID, g.GENRE_NAME " +
+                        "from BOOKS b " +
+                        "inner join AUTHORS a " +
+                        "on a.ID = b.AUTHOR_ID " +
+                        "inner join GENRES g " +
+                        "on g.ID = b.GENRE_ID",
+                new BookMapper());
     }
 
     @Override
     public void deleteById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         namedParameterJdbcOperations.update(
-                "delete from Books where id - :id", params
+                "delete from BOOKS where ID = :id", params
         );
     }
 
     private static class BookMapper implements RowMapper<Book> {
-
         @Override
-        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-            long id = rs.getLong("id");
-            String name = rs.getString("name");
-            long author = rs.getLong("author");
-            long genre = rs.getLong("genre");
-            return new Book(id, name, author, genre);
+        public Book mapRow(ResultSet resultSet, int i) throws SQLException {
+            return new Book(
+                    resultSet.getLong("ID"),
+                    resultSet.getString("BOOK_NAME"),
+                    new Author(resultSet.getLong("AUTHOR_ID"),
+                            resultSet.getString("AUTHOR_NAME")),
+                    new Genre(resultSet.getLong("GENRE_ID"),
+                            resultSet.getString("GENRE_NAME")));
         }
     }
 }
