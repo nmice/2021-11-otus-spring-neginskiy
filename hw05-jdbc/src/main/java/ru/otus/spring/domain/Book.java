@@ -22,6 +22,12 @@ public class Book {
 
     private Genre genre;
 
+    public Book(String title, Author author, Genre genre) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,8 +47,8 @@ public class Book {
     @Override
     public String toString() {
         return "id: " + id +
-                ", Название: " + title +
-                ", Автор: " + author.getName() +
-                ", Жанр: " + genre.getName();
+                ", Title: " + title +
+                ", Author: " + author.getName() +
+                ", Genre: " + genre.getName();
     }
 }

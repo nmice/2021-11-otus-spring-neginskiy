@@ -1,31 +1,52 @@
 package ru.otus.spring.shell;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.service.BookService;
+import ru.otus.spring.service.InputOutputService;
+
+import java.util.List;
 
 @ShellComponent
-@RequiredArgsConstructor
 public class BookCommands {
 
-    @ShellMethod(value = "Add book in library", key = {"ab", "add book"})
-    public String addBook(@ShellOption String name, @ShellOption String genre, @ShellOption String author) {
-        Book book = new Book();
-        book.setTitle(name);
-        book.setAuthorId(1);
-        book.setGenreId(1);
-        return "Book " + name + " saved";
+    private final BookService bookService;
+    private final InputOutputService ioService;
+
+    @Autowired
+    public BookCommands(BookService bookService, InputOutputService ioService) {
+        this.bookService = bookService;
+        this.ioService = ioService;
     }
 
-    /*private Availability isTestingCommandAvailable() {
-        if (student.getFirstname() == null || student.getFirstname().isEmpty()) {
-            return Availability.unavailable(messageService.getMessage("firstname.invalid"));
-        } else if (student.getSecondname() == null || student.getSecondname().isEmpty()) {
-            return Availability.unavailable(messageService.getMessage("secondname.invalid"));
-        } else {
-            return Availability.available();
-        }
-    }*/
+    @ShellMethod(value = "show all books", key = {"book list", "all"})
+    public void allBooks() {
+        List<Book> books = bookService.getAll();
+        books.forEach(book -> ioService.output(book.toString()));
+    }
+
+    @ShellMethod(value = "Add book to library", key = {"add"})
+    public void addBook() {
+        Book book = bookService.getNewBook();
+        bookService.insert(book);
+    }
+
+    @ShellMethod(value = "get book by Id", key = {"getById", "gbi"})
+    public void getBookById() {
+        long id = ioService.inputInt();
+        ioService.output(bookService.getById(id).toString());
+    }
+
+    @ShellMethod(value = "delete book by Id", key = {"deleteById", "dbi"})
+    public void deleteBookById() {
+        long id = ioService.inputInt();
+        bookService.deleteById(id);
+    }
+
+    @ShellMethod(value = "count of all books", key = "count")
+    public void bookCount() {
+        ioService.output(bookService.getCount());
+    }
 }
