@@ -6,11 +6,9 @@ import java.util.List;
 
 public interface BookDao {
 
-    long getNextId();
+    int getCount();
 
-    int count();
-
-    void insert(Book book);
+    long insert(Book book);
 
     Book getById(long id);
 

@@ -1,7 +1,10 @@
 package ru.otus.spring.dao;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
@@ -12,6 +15,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Repository
 public class BookDaoJdbc implements BookDao {
@@ -22,64 +26,50 @@ public class BookDaoJdbc implements BookDao {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
     }
 
-    public long getNextId() {
+    @Override
+    public int getCount() {
         var jdbc = namedParameterJdbcOperations.getJdbcOperations();
-        return jdbc.queryForObject("select next value for BOOK_SEQUENCE", Long.class);
+        return jdbc.queryForObject("select count(*) from book", Integer.class);
     }
 
     @Override
-    public int count() {
-        var jdbc = namedParameterJdbcOperations.getJdbcOperations();
-        return jdbc.queryForObject("select count(*) from BOOKS", Integer.class);
-    }
-
-    @Override
-    public void insert(Book book) {
-        Map<String, Object> params = Map.of(
-                "id", book.getId(),
-                "name", book.getTitle(),
-                "author_id", book.getAuthor().getId(),
-                "genre_id", book.getGenre().getId());
-        namedParameterJdbcOperations.update(
-                "insert into BOOKS (ID, BOOK_NAME, AUTHOR_ID, GENRE_ID) values (:id, :name, :author_id, :genre_id)", params);
+    public long insert(Book book) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("title", book.getTitle());
+        params.addValue("genreId", book.getGenre().getId());
+        params.addValue("authorId", book.getAuthor().getId());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcOperations.update("insert into book (title, genreId, authorId) values (:title, :genre_id, :author_id)", params, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     @Override
     public Book getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return namedParameterJdbcOperations.queryForObject(
-                "select b.ID, b.BOOK_NAME, " +
-                        "a.ID as AUTHOR_ID, a.AUTHOR_NAME, " +
-                        "g.ID as GENRE_ID, g.GENRE_NAME " +
-                        "from BOOKS b " +
-                        "inner join AUTHORS a " +
-                        "on a.ID = b.AUTHOR_ID " +
-                        "inner join GENRES g " +
-                        "on g.ID = b.GENRE_ID " +
-                        "where b.ID = :id", params,
-                new BookMapper()
+                "select b.id, b.title, b.genreId, b.authorId, a.name authorName, g.name genreName " +
+                        "from (book b left join author a on b.authorId = a.id) " +
+                        "left join genre g on b.genreId = g.id " +
+                        "where b.id = :id",
+                params, new BookMapper()
         );
     }
 
     @Override
     public List<Book> getAll() {
         return namedParameterJdbcOperations.query(
-                "select b.ID, b.BOOK_NAME, " +
-                        "b.AUTHOR_ID, a.AUTHOR_NAME, " +
-                        "b.GENRE_ID, g.GENRE_NAME " +
-                        "from BOOKS b " +
-                        "inner join AUTHORS a " +
-                        "on a.ID = b.AUTHOR_ID " +
-                        "inner join GENRES g " +
-                        "on g.ID = b.GENRE_ID",
-                new BookMapper());
+                "select b.id, b.title, b.genreId, b.authorId, a.name authorName, g.name genreName " +
+                        "from (book b left join author a on b.authorId = a.id) " +
+                        "left join genre g on b.genreId = g.id",
+                new BookMapper()
+        );
     }
 
     @Override
     public void deleteById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         namedParameterJdbcOperations.update(
-                "delete from BOOKS where ID = :id", params
+                "delete from book where id = :id", params
         );
     }
 
@@ -87,12 +77,12 @@ public class BookDaoJdbc implements BookDao {
         @Override
         public Book mapRow(ResultSet resultSet, int i) throws SQLException {
             return new Book(
-                    resultSet.getLong("ID"),
-                    resultSet.getString("BOOK_NAME"),
-                    new Author(resultSet.getLong("AUTHOR_ID"),
-                            resultSet.getString("AUTHOR_NAME")),
-                    new Genre(resultSet.getLong("GENRE_ID"),
-                            resultSet.getString("GENRE_NAME")));
+                    resultSet.getLong("id"),
+                    resultSet.getString("title"),
+                    new Author(resultSet.getLong("authorId"),
+                            resultSet.getString("authorName")),
+                    new Genre(resultSet.getLong("genreId"),
+                            resultSet.getString("genreName")));
         }
     }
 }

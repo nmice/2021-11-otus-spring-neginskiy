@@ -1,7 +1,10 @@
 package ru.otus.spring.dao;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import ru.otus.spring.domain.Author;
 
 import java.sql.ResultSet;
@@ -20,26 +23,34 @@ public class AuthorDaoJdbc implements AuthorDao {
 
     @Override
     public void insert(Author author) {
-        Map<String, Object> params = Map.of("id", author.getId(), "name", author.getName());
-        namedParameterJdbcOperations.update("insert into authors (id, authorName) values (:id, :name)", params);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", author.getName());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcOperations.update("insert into author (name) values (:name)", params, keyHolder);
     }
 
     @Override
-    public boolean checkByName(String name) {
-        return false;
-    }
-
-    @Override
-    public Author getById(Long id) {
+    public Author getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return namedParameterJdbcOperations.queryForObject(
-                "select ID, AUTHOR_NAME from AUTHORS where ID = :id", params, new AuthorMapper()
+                "select id, name from author where id = :id", params, new AuthorMapper()
         );
     }
 
     @Override
+    public boolean checkByName(String name) {
+        final Map<String, Object> params = Collections.singletonMap("name", name);
+        List<Author> queryResult = namedParameterJdbcOperations.query("select * from author where name = :name",
+                params, new AuthorMapper());
+        return queryResult.size() > 0;
+    }
+
+    @Override
     public Author getByName(String name) {
-        return null;
+        Map<String, Object> params = Collections.singletonMap("name", name);
+        return namedParameterJdbcOperations.queryForObject(
+                "select id, name from author where name = :name", params, new AuthorMapper()
+        );
     }
 
     private static class AuthorMapper implements RowMapper<Author> {

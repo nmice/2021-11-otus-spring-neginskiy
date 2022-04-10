@@ -9,7 +9,7 @@ public interface AuthorDao {
 
     void insert(Author author);
 
-    Author getById(Long id);
+    Author getById(long id);
 
     Author getByName(String name);
 

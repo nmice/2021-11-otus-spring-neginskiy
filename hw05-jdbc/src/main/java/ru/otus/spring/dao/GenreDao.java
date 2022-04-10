@@ -10,7 +10,7 @@ public interface GenreDao {
 
     Genre getById(long id);
 
-    List<Genre> getAll();
+    boolean checkByName(String genreName);
 
-    void deleteById(long id);
+    Genre getByName(String genreName);
 }
