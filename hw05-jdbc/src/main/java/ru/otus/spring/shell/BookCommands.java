@@ -21,7 +21,7 @@ public class BookCommands {
         this.ioService = ioService;
     }
 
-    @ShellMethod(value = "show all books", key = {"book list", "all"})
+    @ShellMethod(value = "Show all books", key = {"book list", "all"})
     public void allBooks() {
         List<Book> books = bookService.getAll();
         books.forEach(book -> ioService.output(book.toString()));
@@ -33,19 +33,19 @@ public class BookCommands {
         bookService.insert(book);
     }
 
-    @ShellMethod(value = "get book by Id", key = {"getById", "gbi"})
+    @ShellMethod(value = "Get book by Id", key = {"getById", "gbi"})
     public void getBookById() {
         long id = ioService.inputInt();
         ioService.output(bookService.getById(id).toString());
     }
 
-    @ShellMethod(value = "delete book by Id", key = {"deleteById", "dbi"})
+    @ShellMethod(value = "Delete book by Id", key = {"deleteById", "dbi"})
     public void deleteBookById() {
         long id = ioService.inputInt();
         bookService.deleteById(id);
     }
 
-    @ShellMethod(value = "count of all books", key = "count")
+    @ShellMethod(value = "Count of all books", key = "count")
     public void bookCount() {
         ioService.output(bookService.getCount());
     }
