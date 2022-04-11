@@ -24,10 +24,12 @@ public class Genre {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || o.getClass() != this.getClass()) return false;
         Genre genre = (Genre) o;
-        return Objects.equals(id, genre.id) &&
+        if (this.name != null && genre.name != null)
+            return (this.id.equals(genre.id) &&
+                    this.name.equals(genre.name));
+        else return Objects.equals(id, genre.id) &&
                 Objects.equals(name, genre.name);
     }
 

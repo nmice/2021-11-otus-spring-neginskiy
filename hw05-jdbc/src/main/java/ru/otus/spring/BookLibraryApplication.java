@@ -11,5 +11,4 @@ public class BookLibraryApplication {
         Console.main(args);
         SpringApplication.run(BookLibraryApplication.class, args);
     }
-
 }

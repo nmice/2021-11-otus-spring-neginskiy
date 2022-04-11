@@ -14,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Book {
 
-    private long id;
+    private Long id;
 
     private String title;
 

@@ -25,7 +25,7 @@ public class AuthorServiceImpl implements AuthorService {
         return authorDao.getByName(name);
     }
 
-    private boolean existAuthor(String name){
+    private boolean existAuthor(String name) {
         return authorDao.checkByName(name);
     }
 }
