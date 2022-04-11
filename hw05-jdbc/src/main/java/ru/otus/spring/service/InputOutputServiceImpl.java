@@ -25,17 +25,7 @@ public class InputOutputServiceImpl implements InputOutputService {
     }
 
     @Override
-    public Integer inputInt() {
-        return scanner.nextInt();
-    }
-
-    @Override
-    public void output(String s) {
-        out.println(s);
-    }
-
-    @Override
-    public void output(int i) {
-        System.out.println(i);
+    public void output(Object o) {
+        out.println(o.toString());
     }
 }
