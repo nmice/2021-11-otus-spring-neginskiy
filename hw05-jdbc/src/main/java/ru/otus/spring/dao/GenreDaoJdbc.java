@@ -11,7 +11,6 @@ import ru.otus.spring.domain.Genre;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -42,10 +41,10 @@ public class GenreDaoJdbc implements GenreDao {
     @Override
     public boolean checkByName(String name) {
         Map<String, Object> params = Collections.singletonMap("name", name);
-        List<Genre> queryResult = namedParameterJdbcOperations.query(
-                "select id, name from genre where name = :name", params, new GenreMapper()
+        var count = namedParameterJdbcOperations.queryForObject(
+                "select count(*) from genre where name = :name", params, Integer.class
         );
-        return queryResult.size() > 0;
+        return count != null && count > 0;
     }
 
     @Override

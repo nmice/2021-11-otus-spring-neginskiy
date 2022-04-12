@@ -11,7 +11,6 @@ import ru.otus.spring.domain.Author;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -42,9 +41,9 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public boolean checkByName(String name) {
         final Map<String, Object> params = Collections.singletonMap("name", name);
-        List<Author> queryResult = namedParameterJdbcOperations.query("select * from author where name = :name",
-                params, new AuthorMapper());
-        return queryResult.size() > 0;
+        var count = namedParameterJdbcOperations.queryForObject("select count(*) from author where name = :name",
+                params, Integer.class);
+        return count != null && count > 0;
     }
 
     @Override
