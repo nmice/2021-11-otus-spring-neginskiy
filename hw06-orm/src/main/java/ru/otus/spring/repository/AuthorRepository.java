@@ -4,7 +4,7 @@ import ru.otus.spring.domain.Author;
 
 public interface AuthorRepository {
 
-    void insert(Author author);
+    Author insert(Author author);
 
     Author getById(long id);
 

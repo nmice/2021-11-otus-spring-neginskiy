@@ -1,14 +1,16 @@
 package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
-import ru.otus.spring.repository.BookRepository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.repository.BookRepository;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
@@ -25,7 +27,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public int getCount() {
+    public long getCount() {
         return bookRepository.getCount();
     }
 

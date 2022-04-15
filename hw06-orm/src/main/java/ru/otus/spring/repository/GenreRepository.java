@@ -4,7 +4,7 @@ import ru.otus.spring.domain.Genre;
 
 public interface GenreRepository {
 
-    void insert(Genre genre);
+    Genre insert(Genre genre);
 
     Genre getById(long id);
 

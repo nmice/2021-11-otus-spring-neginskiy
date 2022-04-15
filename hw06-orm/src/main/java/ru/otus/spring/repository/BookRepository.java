@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface BookRepository {
 
-    int getCount();
+    long getCount();
 
-    long insert(Book book);
+    Book insert(Book book);
 
     Book getById(long id);
 
