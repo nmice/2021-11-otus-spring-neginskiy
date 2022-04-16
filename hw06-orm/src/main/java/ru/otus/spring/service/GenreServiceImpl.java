@@ -22,7 +22,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre getGenre(String name) {
-        if (!existGenre(name)) genreRepository.insert(new Genre(name));
+        if (!existGenre(name)) genreRepository.insert(new Genre(null, name));
         return genreRepository.getByName(name);
     }
 

@@ -8,7 +8,7 @@ public interface GenreRepository {
 
     Genre getById(long id);
 
-    boolean checkByName(String genreName);
+    boolean checkByName(String name);
 
-    Genre getByName(String genreName);
+    Genre getByName(String name);
 }

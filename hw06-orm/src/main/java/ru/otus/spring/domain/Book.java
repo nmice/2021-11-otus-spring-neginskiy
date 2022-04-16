@@ -1,17 +1,33 @@
 package ru.otus.spring.domain;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
+@NamedEntityGraphs(value = {
+        @NamedEntityGraph(name = "book-with-author-graph", attributeNodes = {
+                @NamedAttributeNode("author")
+        }),
+        @NamedEntityGraph(name = "book-with-genre-graph", attributeNodes = {
+                @NamedAttributeNode("genre")
+        }),
+        @NamedEntityGraph(name = "book-with-author-and-genre-graph", attributeNodes = {
+                @NamedAttributeNode("author"),
+                @NamedAttributeNode("genre")
+        }),
+        @NamedEntityGraph(name = "book-with-comments-graph", attributeNodes = {
+                @NamedAttributeNode(value = "commentaries")
+        })
+})
 @Getter
 @Setter
-@RequiredArgsConstructor
+@ToString
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Book {
@@ -23,41 +39,24 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id")
+    @Fetch(FetchMode.JOIN)
+    @ManyToOne(targetEntity = Author.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id")
     private Author author;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    @ManyToOne(targetEntity = Genre.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    public Book(String title, Author author, Genre genre) {
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return id == book.id &&
-                Objects.equals(title, book.title) &&
-                Objects.equals(author, book.author) &&
-                Objects.equals(genre, book.genre);
-    }
+    @Fetch(FetchMode.SUBSELECT)
+    @BatchSize(size = 10)
+    @OneToMany(targetEntity = Commentary.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "book_id")
+    private List<Commentary> commentaries;
 
     @Override
     public int hashCode() {
         return Objects.hash(id, title, author, genre);
-    }
-
-    @Override
-    public String toString() {
-        return "id: " + id +
-                ", Title: " + title +
-                ", Author: " + author.getName() +
-                ", Genre: " + genre.getName();
     }
 }

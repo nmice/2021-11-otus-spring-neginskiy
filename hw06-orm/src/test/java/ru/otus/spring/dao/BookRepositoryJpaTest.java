@@ -26,7 +26,7 @@ class BookRepositoryJpaTest {
     @DisplayName("корректно добавлять книгу в БД")
     @Test
     void shouldInsertBook() {
-        Book book = new Book(4L, "New book title", new Author(1L, "Miguel De Cervantes"), new Genre(2L, "Programming"));
+        Book book = new Book(4L, "New book title", new Author(1L, "Miguel De Cervantes"), new Genre(2L, "Programming"), null);
         bookDao.insert(book);
         Book actualBook = bookDao.getById(4L);
         Assertions.assertThat(actualBook).isEqualTo(book);
@@ -41,9 +41,9 @@ class BookRepositoryJpaTest {
     @DisplayName("получать все книги")
     @Test
     void shouldReturnCorrectBookList() {
-        Book book1 = new Book(1L, "Don Quixote", new Author(1L, "Miguel De Cervantes"), new Genre(1L, "Novel"));
-        Book book2 = new Book(2L, "Java Headfirst", new Author(2L, "Kathy Sierra"), new Genre(2L, "Programming"));
-        Book book3 = new Book(3L, "After three it`s too late", new Author(3L, "Masaru Ibuka"), new Genre(3L, "Psychology"));
+        Book book1 = new Book(1L, "Don Quixote", new Author(1L, "Miguel De Cervantes"), new Genre(1L, "Novel"), null);
+        Book book2 = new Book(2L, "Java Headfirst", new Author(2L, "Kathy Sierra"), new Genre(2L, "Programming"), null);
+        Book book3 = new Book(3L, "After three it`s too late", new Author(3L, "Masaru Ibuka"), new Genre(3L, "Psychology"), null);
         List<Book> books = new ArrayList<>();
         books.add(book1);
         books.add(book2);
@@ -55,7 +55,7 @@ class BookRepositoryJpaTest {
     @DisplayName("получать нужную книгу по id")
     @Test
     void shouldReturnCorrectBookById() {
-        Book book = new Book(1L, "Don Quixote", new Author(1L, "Miguel De Cervantes"), new Genre(1L, "Novel"));
+        Book book = new Book(1L, "Don Quixote", new Author(1L, "Miguel De Cervantes"), new Genre(1L, "Novel"), null);
         Book actualBook = bookDao.getById(1L);
         Assertions.assertThat(actualBook).isEqualTo(book);
     }

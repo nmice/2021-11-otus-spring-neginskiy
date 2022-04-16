@@ -61,6 +61,6 @@ public class BookServiceImpl implements BookService {
         String authorName = ioService.input();
         Genre genre = genreService.getGenre(genreName);
         Author author = authorService.getAuthor(authorName);
-        return new Book(title, author, genre);
+        return new Book(null, title, author, genre, null);
     }
 }
