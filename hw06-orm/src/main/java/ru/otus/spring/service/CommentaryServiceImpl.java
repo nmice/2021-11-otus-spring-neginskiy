@@ -24,6 +24,7 @@ public class CommentaryServiceImpl implements CommentaryService {
     }
 
     @Override
+    @Transactional
     public Commentary save(Commentary commentary) {
         return commentaryRepository.save(commentary);
     }
@@ -34,16 +35,19 @@ public class CommentaryServiceImpl implements CommentaryService {
     }
 
     @Override
+    @Transactional
     public void updateTextById(long id, String text) {
         commentaryRepository.updateTextById(id, text);
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
         commentaryRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void addNewCommentary() {
         ioService.output("Enter book id to add commentary");
         int bookId = ioService.inputInt();
@@ -64,6 +68,7 @@ public class CommentaryServiceImpl implements CommentaryService {
     }
 
     @Override
+    @Transactional
     public void deleteByBookId(long id) {
         commentaryRepository.deleteByBookId(id);
     }

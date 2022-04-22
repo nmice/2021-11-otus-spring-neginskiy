@@ -19,6 +19,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public Author save(Author author) {
         return authorRepository.save(author);
     }
