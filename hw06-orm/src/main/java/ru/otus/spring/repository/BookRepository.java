@@ -1,18 +1,30 @@
 package ru.otus.spring.repository;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import ru.otus.spring.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository {
 
-    long getCount();
+    Book save(Book book);
 
-    Book insert(Book book);
+    Optional<Book> findById(long id);
 
-    Book getById(long id);
+    List<Book> findAll();
 
-    List<Book> getAll();
+    List<Book> findByName(String name);
+
+    void updateNameById(long id, String name);
 
     void deleteById(long id);
+
+    long getCount();
+
+    List<Book> findAllBooksByAuthorId(long id);
+
+    List<Book> findAllWithCommentaries();
+
+    List<ImmutablePair<Book, Long>> findAllBooksWithCommentariesCount();
 }

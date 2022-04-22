@@ -2,13 +2,19 @@ package ru.otus.spring.repository;
 
 import ru.otus.spring.domain.Commentary;
 
+import java.util.List;
+
 public interface CommentaryRepository {
 
-    Commentary insert(Commentary genre);
+    Commentary save(Commentary commentary);
 
-    Commentary getById(long id);
+    List<Commentary> findByBookId(long id);
 
-    boolean checkByName(String description);
+    void updateTextById(long id, String text);
 
-    Commentary getByName(String description);
+    void deleteById(long id);
+
+    List<Commentary> findAllCommentariesByAuthorId(long id);
+
+    void deleteByBookId(long id);
 }

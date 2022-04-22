@@ -3,18 +3,29 @@ package ru.otus.spring.service;
 import ru.otus.spring.domain.Book;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookService {
 
-    long getCount();
+    Book save(Book book);
 
-    void insert(Book book);
+    Book findById(long id);
 
-    Book getById(long id);
+    List<Book> findAll();
 
-    List<Book> getAll();
+    List<Book> findByName(String name);
+
+    void updateNameById(long id, String name);
 
     void deleteById(long id);
 
-    Book getNewBook();
+    void addNewBook();
+
+    long getCount();
+
+    List<Book> findAllBooksByAuthorId(long id);
+
+    List<Book> findAllWithCommentaries();
+
+    Map<Book, Long> findAllBooksWithCommentariesCount();
 }

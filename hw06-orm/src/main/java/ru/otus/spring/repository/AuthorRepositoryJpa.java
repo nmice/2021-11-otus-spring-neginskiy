@@ -1,10 +1,12 @@
 package ru.otus.spring.repository;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class AuthorRepositoryJpa implements AuthorRepository {
@@ -17,7 +19,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    public Author insert(Author author) {
+    public Author save(Author author) {
         if (author.getId() == null) {
             em.persist(author);
             return author;
@@ -27,22 +29,26 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    public Author getById(long id) {
-        return em.find(Author.class, id);
+    public Optional<Author> findById(long id) {
+        return Optional.ofNullable(em.find(Author.class, id));
     }
 
     @Override
-    public boolean checkByName(String name) {
-        var query = em.createQuery("select count(a) from Author a where a.name = :name", Long.class);
-        query.setParameter("name", name);
-        var count = query.getSingleResult();
-        return count != null && count > 0;
+    public List<Author> findAll() {
+        EntityGraph<?> entityGraph = em.getEntityGraph("book_entity_graph");
+        TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
+        query.setHint("javax.persistence.fetchgraph", entityGraph);
+        return query.getResultList();
     }
 
     @Override
-    public Author getByName(String name) {
-        var query = em.createQuery("select a from Author a where a.name = :name", Author.class);
-        query.setParameter("name", name);
-        return query.getSingleResult();
+    public Author findByName(String name) {
+        try {
+            TypedQuery<Author> query = em.createQuery("select a from Author a where a.name=:name", Author.class);
+            query.setParameter("name", name);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

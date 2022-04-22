@@ -4,43 +4,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Commentary;
+import ru.otus.spring.service.AuthorService;
 import ru.otus.spring.service.BookService;
+import ru.otus.spring.service.CommentaryService;
 import ru.otus.spring.service.InputOutputService;
 
 import java.util.List;
+import java.util.Map;
 
 @ShellComponent
 public class BookCommands {
 
     private final BookService bookService;
+    private final AuthorService authorService;
+    private final CommentaryService commentaryService;
     private final InputOutputService ioService;
 
     @Autowired
-    public BookCommands(BookService bookService, InputOutputService ioService) {
+    public BookCommands(BookService bookService,
+                        AuthorService authorService,
+                        CommentaryService commentaryService,
+                        InputOutputService ioService) {
         this.bookService = bookService;
+        this.authorService = authorService;
+        this.commentaryService = commentaryService;
         this.ioService = ioService;
     }
 
     @ShellMethod(value = "Show all books", key = {"book list", "all"})
     public void showAllBooks() {
-        List<Book> books = bookService.getAll();
+        List<Book> books = bookService.findAll();
         books.forEach(book -> ioService.output(book.toString()));
     }
 
     @ShellMethod(value = "Add book to library", key = {"add"})
     public void addBookToLibrary() {
-        Book book = bookService.getNewBook();
-        bookService.insert(book);
+        bookService.addNewBook();
     }
 
-    @ShellMethod(value = "Get book by Id", key = {"getById", "gbi"})
+    @ShellMethod(value = "Get book by Id", key = {"get by id", "get"})
     public void getBookById(@ShellOption long id) {
-        Book book = bookService.getById(id);
-        ioService.output(book.toString());
+        ioService.output(bookService.findById(id).toString());
     }
 
-    @ShellMethod(value = "Delete book by Id", key = {"deleteById", "dbi"})
+    @ShellMethod(value = "Delete book by Id", key = {"delete by id", "del"})
     public void deleteBookById(@ShellOption long id) {
         bookService.deleteById(id);
     }
@@ -48,5 +58,87 @@ public class BookCommands {
     @ShellMethod(value = "Count of all books", key = {"count", "c"})
     public void countAllBooks() {
         ioService.output(bookService.getCount());
+    }
+
+    @ShellMethod(value = "Update book title by Id", key = {"update title by id", "upd"})
+    public void updateBookTitleById() {
+        ioService.output("Enter book id to change");
+        long id = ioService.inputInt();
+        ioService.output("Enter a new book title");
+        String name = ioService.input();
+        bookService.updateNameById(id, name);
+    }
+
+    @ShellMethod(value = "Find book by title", key = {"find by title", "find"})
+    public void findBookByTitle() {
+        ioService.output("Enter book title to search");
+        String name = ioService.input();
+        List<Book> allBooks = bookService.findByName(name);
+        allBooks.forEach(book -> ioService.output(book.toString()));
+    }
+
+    @ShellMethod(value = "Add comment to book by Id", key = {"add comment by book id", "addcom"})
+    public void addCommentToBookById() {
+        commentaryService.addNewCommentary();
+    }
+
+    @ShellMethod(value = "Show all comments to book by Id", key = {"comments to book by id", "bookcom"})
+    public void showAllCommentsToBookById() {
+        ioService.output("Enter book Id to show comments");
+        long id = ioService.inputInt();
+        List<Commentary> allComments = commentaryService.findByBookId(id);
+        ioService.output("Commentaries for book '" + bookService.findById(id).getTitle() + "':\r\n");
+        allComments.forEach(comment -> ioService.output(comment.toString()));
+    }
+
+    @ShellMethod(value = "Delete comment by Id", key = {"delete comment by id", "delcom"})
+    public void deleteCommentById() {
+        ioService.output("Enter comment Id to delete");
+        long id = ioService.inputInt();
+        commentaryService.deleteById(id);
+    }
+
+    @ShellMethod(value = "Edit comment text by id", key = {"edit comment by id", "editcom"})
+    public void editCommentById() {
+        ioService.output("Enter comment Id to change");
+        long id = ioService.inputInt();
+        ioService.output("Enter new comment");
+        String text = ioService.input();
+        commentaryService.updateTextById(id, text);
+    }
+
+    @ShellMethod(value = "Show all authors and count of books", key = {"author list", "allaut"})
+    public void showAllAuthors() {
+        List<Author> authors = authorService.findAll();
+        authors.forEach(author -> ioService.output(author.toString()));
+    }
+
+    @ShellMethod(value = "Show all books by author id", key = {"book list by author id", "allba"})
+    public void showAllBooksByAuthorId() {
+        ioService.output("Enter author id for showing his book list");
+        long id = ioService.inputInt();
+        List<Book> books = bookService.findAllBooksByAuthorId(id);
+        ioService.output("Books by author: " + authorService.findById(id).getName());
+        books.forEach(book -> ioService.output(book.getTitle()));
+    }
+
+    @ShellMethod(value = "Show all comments to all books by author id", key = {"comment list by author id", "allcomba"})
+    public void showAllCommentsByAuthorId() {
+        ioService.output("Enter author id for showing all comments list for his books");
+        long id = ioService.inputInt();
+        List<Commentary> comments = commentaryService.findAllCommentariesByAuthorId(id);
+        ioService.output("Comments to books by author: " + authorService.findById(id).getName());
+        comments.forEach(comment -> ioService.output(
+                "Book: " + comment.getBook().getTitle() + ". Comment: " + comment.getText()
+        ));
+    }
+
+    @ShellMethod(value = "Show all books and comments count", key = {"book list with comments count", "allwc"})
+    public void showAllBooksWithComments() {
+        Map<Book, Long> books = bookService.findAllBooksWithCommentariesCount();
+        for (Map.Entry<Book, Long> entry : books.entrySet()) {
+            ioService.output(entry.getKey().toString());
+            ioService.output("Comments count: " + entry.getValue());
+        }
     }
 }

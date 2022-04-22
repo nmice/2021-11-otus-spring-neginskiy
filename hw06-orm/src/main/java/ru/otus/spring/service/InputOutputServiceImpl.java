@@ -25,6 +25,13 @@ public class InputOutputServiceImpl implements InputOutputService {
     }
 
     @Override
+    public Integer inputInt() {
+        int count = scanner.nextInt();
+        scanner.nextLine();
+        return count;
+    }
+
+    @Override
     public void output(Object o) {
         out.println(o.toString());
     }

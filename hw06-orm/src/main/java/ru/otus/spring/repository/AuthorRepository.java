@@ -2,13 +2,16 @@ package ru.otus.spring.repository;
 
 import ru.otus.spring.domain.Author;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface AuthorRepository {
 
-    Author insert(Author author);
+    Author save(Author author);
 
-    Author getById(long id);
+    Optional<Author> findById(long id);
 
-    Author getByName(String name);
+    List<Author> findAll();
 
-    boolean checkByName(String name);
+    Author findByName(String name);
 }

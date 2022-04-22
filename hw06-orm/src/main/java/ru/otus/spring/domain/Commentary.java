@@ -1,15 +1,16 @@
 package ru.otus.spring.domain;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "commentary")
 @Entity
 public class Commentary {
 
@@ -17,16 +18,20 @@ public class Commentary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "post_date")
-    private String postDate;
+    @Column(name = "text")
+    private String text;
 
-    @Column(name = "author_name")
-    private String authorName;
-
-    @Column(name = "content")
-    private String content;
-
-    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;
+
+    public Commentary(String text, Book book) {
+        this.text = text;
+        this.book = book;
+    }
+
+    @Override
+    public String toString() {
+        return "Commentary with id: " + id + " to book title: " + book.getTitle() + ", text='" + text + '\'';
+    }
 }

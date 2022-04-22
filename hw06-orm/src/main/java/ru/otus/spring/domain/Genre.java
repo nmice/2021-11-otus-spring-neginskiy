@@ -1,17 +1,17 @@
 package ru.otus.spring.domain;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "genre")
 @Entity
 public class Genre {
 
@@ -21,6 +21,10 @@ public class Genre {
 
     @Column(name = "name", unique = true)
     private String name;
+
+    public Genre(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {

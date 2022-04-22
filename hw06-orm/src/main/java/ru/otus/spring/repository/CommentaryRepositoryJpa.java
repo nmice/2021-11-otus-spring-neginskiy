@@ -5,44 +5,68 @@ import ru.otus.spring.domain.Commentary;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Repository
 public class CommentaryRepositoryJpa implements CommentaryRepository {
 
     @PersistenceContext
-    private final EntityManager em;
-
-    public CommentaryRepositoryJpa(EntityManager em) {
-        this.em = em;
-    }
+    private EntityManager em;
 
     @Override
-    public Commentary insert(Commentary genre) {
-        if (genre.getId() == null) {
-            em.persist(genre);
-            return genre;
+    public Commentary save(Commentary commentary) {
+        if (commentary.getId() == null) {
+            em.persist(commentary);
+            return commentary;
         } else {
-            return em.merge(genre);
+            return em.merge(commentary);
         }
     }
 
     @Override
-    public Commentary getById(long id) {
-        return em.find(Commentary.class, id);
+    public List<Commentary> findByBookId(long id) {
+        TypedQuery<Commentary> query = em.createQuery(
+                "select c from Commentary c where c.book.id=:id",
+                Commentary.class
+        );
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 
     @Override
-    public boolean checkByName(String name) {
-        var query = em.createQuery("select count(g) from Commentary g where g.content = :name", Long.class);
-        query.setParameter("name", name);
-        var count = query.getSingleResult();
-        return count != null && count > 0;
+    public void updateTextById(long id, String text) {
+        Query query = em.createQuery("update Commentary c set c.text=:text where c.id=:id");
+        query.setParameter("id", id);
+        query.setParameter("text", text);
+        query.executeUpdate();
     }
 
     @Override
-    public Commentary getByName(String name) {
-        var query = em.createQuery("select g from Commentary g where g.content = :name", Commentary.class);
-        query.setParameter("name", name);
-        return query.getSingleResult();
+    public void deleteById(long id) {
+        Query query = em.createQuery(
+                "delete from Commentary c where c.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    @Override
+    public List<Commentary> findAllCommentariesByAuthorId(long id) {
+        TypedQuery<Commentary> query = em.createQuery(
+                "select c from Commentary c left join c.book b where b.author.id=:id",
+                Commentary.class
+        );
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+
+    @Override
+    public void deleteByBookId(long id) {
+        Query query = em.createQuery(
+                "delete from Commentary c where c.book.id = :id"
+        );
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

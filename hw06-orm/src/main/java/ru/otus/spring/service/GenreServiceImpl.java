@@ -2,8 +2,10 @@ package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.repository.GenreRepository;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.repository.GenreRepository;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -16,17 +18,18 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre getById(long id) {
-        return genreRepository.getById(id);
+    public Genre save(Genre genre) {
+        return genreRepository.save(genre);
     }
 
     @Override
-    public Genre getGenre(String name) {
-        if (!existGenre(name)) genreRepository.insert(new Genre(null, name));
-        return genreRepository.getByName(name);
+    public Optional<Genre> findById(long id) {
+        return genreRepository.findById(id);
     }
 
-    private boolean existGenre(String name) {
-        return genreRepository.checkByName(name);
+
+    @Override
+    public Genre findByName(String name) {
+        return genreRepository.findByName(name);
     }
 }

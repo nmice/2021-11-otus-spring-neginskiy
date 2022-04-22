@@ -2,13 +2,13 @@ package ru.otus.spring.repository;
 
 import ru.otus.spring.domain.Genre;
 
+import java.util.Optional;
+
 public interface GenreRepository {
 
-    Genre insert(Genre genre);
+    Genre save(Genre genre);
 
-    Genre getById(long id);
+    Optional<Genre> findById(long id);
 
-    boolean checkByName(String name);
-
-    Genre getByName(String name);
+    Genre findByName(String name);
 }
