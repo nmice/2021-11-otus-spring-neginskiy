@@ -1,6 +1,5 @@
 package ru.otus.spring.service;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
@@ -8,9 +7,7 @@ import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.repository.BookRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Transactional

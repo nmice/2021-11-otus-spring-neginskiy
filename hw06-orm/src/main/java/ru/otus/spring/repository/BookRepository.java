@@ -1,6 +1,5 @@
 package ru.otus.spring.repository;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import ru.otus.spring.domain.Book;
 
 import java.util.List;
