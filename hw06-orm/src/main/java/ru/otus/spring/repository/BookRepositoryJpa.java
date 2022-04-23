@@ -76,10 +76,4 @@ public class BookRepositoryJpa implements BookRepository {
     public List<Book> findAllWithCommentaries() {
         return null;
     }
-
-    @Override
-    public List<ImmutablePair<Book, Long>> findAllBooksWithCommentariesCount() {
-        Query query = em.createQuery("select new org.apache.commons.lang3.tuple.ImmutablePair (c.book, count(c)) from Commentary c group by c.book");
-        return query.getResultList();
-    }
 }

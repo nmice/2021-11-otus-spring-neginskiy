@@ -6,10 +6,9 @@ import java.util.Optional;
 
 public interface GenreService {
 
-    Genre save(Genre genre);
+    Genre insert(Genre genre);
 
-    Optional<Genre> findById(long id);
-
+    Optional<Genre> getById(long id);
 
     Genre findByName(String name);
 }

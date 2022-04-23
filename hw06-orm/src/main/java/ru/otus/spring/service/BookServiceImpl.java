@@ -33,22 +33,22 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book save(Book book) {
+    public Book insert(Book book) {
         return bookRepository.save(book);
     }
 
     @Override
-    public Book findById(long id) {
+    public Book getById(long id) {
         return bookRepository.findById(id).get();
     }
 
     @Override
-    public List<Book> findAll() {
+    public List<Book> getAll() {
         return bookRepository.findAll();
     }
 
     @Override
-    public List<Book> findByName(String name) {
+    public List<Book> getByName(String name) {
         return bookRepository.findByName(name);
     }
 
@@ -73,7 +73,7 @@ public class BookServiceImpl implements BookService {
         String genreName = ioService.input();
         ioService.output("Enter Author");
         String authorName = ioService.input();
-        Author author = authorService.findByName(authorName);
+        Author author = authorService.getByName(authorName);
         if (author == null) author = new Author(authorName);
         Genre genre = genreService.findByName(genreName);
         if (genre == null) genre = new Genre(genreName);
@@ -87,21 +87,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findAllBooksByAuthorId(long id) {
+    public List<Book> getAllBooksByAuthorId(long id) {
         return bookRepository.findAllBooksByAuthorId(id);
-    }
-
-    @Override
-    public List<Book> findAllWithCommentaries() {
-        return bookRepository.findAllWithCommentaries();
-    }
-
-    @Override
-    public Map<Book, Long> findAllBooksWithCommentariesCount() {
-        List<ImmutablePair<Book, Long>> pairList = bookRepository.findAllBooksWithCommentariesCount();
-        Map<Book, Long> bookMap = new HashMap<>();
-        for (ImmutablePair pair : pairList)
-            bookMap.put((Book) pair.left, (long) pair.right);
-        return bookMap;
     }
 }

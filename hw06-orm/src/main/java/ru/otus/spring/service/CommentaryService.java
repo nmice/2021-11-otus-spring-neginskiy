@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface CommentaryService {
 
-    Commentary save(Commentary commentary);
+    Commentary insert(Commentary commentary);
 
-    List<Commentary> findByBookId(long id);
+    List<Commentary> getByBookId(long id);
 
     void updateTextById(long id, String text);
 
@@ -16,7 +16,7 @@ public interface CommentaryService {
 
     void addNewCommentary();
 
-    List<Commentary> findAllCommentariesByAuthorId(long id);
+    List<Commentary> getAllCommentariesByAuthorId(long id);
 
     void deleteByBookId(long id);
 }

@@ -19,15 +19,14 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     @Transactional
-    public Genre save(Genre genre) {
+    public Genre insert(Genre genre) {
         return genreRepository.save(genre);
     }
 
     @Override
-    public Optional<Genre> findById(long id) {
+    public Optional<Genre> getById(long id) {
         return genreRepository.findById(id);
     }
-
 
     @Override
     public Genre findByName(String name) {

@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface AuthorService {
 
-    Author save(Author author);
+    Author insert(Author author);
 
-    Author findById(long id);
+    Author getById(long id);
 
-    List<Author> findAll();
+    List<Author> getAll();
 
-    Author findByName(String name);
+    Author getByName(String name);
 }

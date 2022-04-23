@@ -25,12 +25,12 @@ public class CommentaryServiceImpl implements CommentaryService {
 
     @Override
     @Transactional
-    public Commentary save(Commentary commentary) {
+    public Commentary insert(Commentary commentary) {
         return commentaryRepository.save(commentary);
     }
 
     @Override
-    public List<Commentary> findByBookId(long id) {
+    public List<Commentary> getByBookId(long id) {
         return commentaryRepository.findByBookId(id);
     }
 
@@ -51,7 +51,7 @@ public class CommentaryServiceImpl implements CommentaryService {
     public void addNewCommentary() {
         ioService.output("Enter book id to add commentary");
         int bookId = ioService.inputInt();
-        Book book = bookService.findById(bookId);
+        Book book = bookService.getById(bookId);
         if (book != null) {
             ioService.output("Enter comment for book - " + book.getTitle());
             String commentText = ioService.input();
@@ -63,7 +63,7 @@ public class CommentaryServiceImpl implements CommentaryService {
     }
 
     @Override
-    public List<Commentary> findAllCommentariesByAuthorId(long id) {
+    public List<Commentary> getAllCommentariesByAuthorId(long id) {
         return commentaryRepository.findAllCommentariesByAuthorId(id);
     }
 

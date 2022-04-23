@@ -25,6 +25,4 @@ public interface BookRepository {
     List<Book> findAllBooksByAuthorId(long id);
 
     List<Book> findAllWithCommentaries();
-
-    List<ImmutablePair<Book, Long>> findAllBooksWithCommentariesCount();
 }

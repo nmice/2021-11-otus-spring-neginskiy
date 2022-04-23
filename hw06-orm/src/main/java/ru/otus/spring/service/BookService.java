@@ -7,13 +7,13 @@ import java.util.Map;
 
 public interface BookService {
 
-    Book save(Book book);
+    Book insert(Book book);
 
-    Book findById(long id);
+    Book getById(long id);
 
-    List<Book> findAll();
+    List<Book> getAll();
 
-    List<Book> findByName(String name);
+    List<Book> getByName(String name);
 
     void updateNameById(long id, String name);
 
@@ -23,9 +23,5 @@ public interface BookService {
 
     long getCount();
 
-    List<Book> findAllBooksByAuthorId(long id);
-
-    List<Book> findAllWithCommentaries();
-
-    Map<Book, Long> findAllBooksWithCommentariesCount();
+    List<Book> getAllBooksByAuthorId(long id);
 }
