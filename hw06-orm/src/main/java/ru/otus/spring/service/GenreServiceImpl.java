@@ -8,7 +8,6 @@ import ru.otus.spring.repository.GenreRepository;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
@@ -24,11 +23,13 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Genre> getById(long id) {
         return genreRepository.findById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Genre findByName(String name) {
         return genreRepository.findByName(name);
     }

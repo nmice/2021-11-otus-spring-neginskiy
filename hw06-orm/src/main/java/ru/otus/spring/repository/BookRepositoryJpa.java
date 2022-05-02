@@ -70,9 +70,4 @@ public class BookRepositoryJpa implements BookRepository {
         query.setHint("javax.persistence.fetchgraph", entityGraph);
         return query.getResultList();
     }
-
-    @Override
-    public List<Book> findAllWithCommentaries() {
-        return null;
-    }
 }

@@ -9,7 +9,6 @@ import ru.otus.spring.repository.AuthorRepository;
 import java.util.List;
 
 @Service
-@Transactional
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
@@ -25,16 +24,19 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Author getById(long id) {
         return authorRepository.findById(id).get();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Author> getAll() {
         return authorRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Author getByName(String name) {
         return authorRepository.findByName(name);
     }

@@ -10,7 +10,6 @@ import ru.otus.spring.repository.BookRepository;
 import java.util.List;
 
 @Service
-@Transactional
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
@@ -35,16 +34,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Book getById(long id) {
         return bookRepository.findById(id).get();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> getAll() {
         return bookRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> getByName(String name) {
         return bookRepository.findByName(name);
     }
@@ -62,7 +64,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public void addNewBook() {
         ioService.output("Enter book title");
         String title = ioService.input();
@@ -75,15 +76,17 @@ public class BookServiceImpl implements BookService {
         Genre genre = genreService.findByName(genreName);
         if (genre == null) genre = new Genre(genreName);
         Book book = new Book(title, author, genre);
-        bookRepository.save(book);
+        insert(book);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long getCount() {
         return bookRepository.getCount();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> getAllBooksByAuthorId(long id) {
         return bookRepository.findAllBooksByAuthorId(id);
     }

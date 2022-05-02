@@ -18,7 +18,7 @@ import java.util.List;
 
 @DisplayName("Repository для работы с книгами должен ")
 @DataJpaTest
-@Import({BookRepositoryJpa.class, CommentaryRepositoryJpa.class})
+@Import(BookRepositoryJpa.class)
 class BookRepositoryJpaTest {
 
     @Autowired

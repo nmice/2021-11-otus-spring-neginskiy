@@ -22,6 +22,4 @@ public interface BookRepository {
     long getCount();
 
     List<Book> findAllBooksByAuthorId(long id);
-
-    List<Book> findAllWithCommentaries();
 }

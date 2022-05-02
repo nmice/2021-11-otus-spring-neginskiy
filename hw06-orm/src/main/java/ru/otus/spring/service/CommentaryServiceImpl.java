@@ -9,7 +9,6 @@ import ru.otus.spring.repository.CommentaryRepository;
 import java.util.List;
 
 @Service
-@Transactional
 public class CommentaryServiceImpl implements CommentaryService {
     private final CommentaryRepository commentaryRepository;
     private final InputOutputService ioService;
@@ -30,6 +29,7 @@ public class CommentaryServiceImpl implements CommentaryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Commentary> getByBookId(long id) {
         return commentaryRepository.findByBookId(id);
     }
@@ -47,7 +47,6 @@ public class CommentaryServiceImpl implements CommentaryService {
     }
 
     @Override
-    @Transactional
     public void addNewCommentary() {
         ioService.output("Enter book id to add commentary");
         int bookId = ioService.inputInt();
@@ -56,7 +55,7 @@ public class CommentaryServiceImpl implements CommentaryService {
             ioService.output("Enter comment for book - " + book.getTitle());
             String commentText = ioService.input();
             Commentary commentary = new Commentary(commentText, book);
-            commentaryRepository.save(commentary);
+            insert(commentary);
         } else {
             ioService.output("Book for id: " + bookId + " not found.");
         }
