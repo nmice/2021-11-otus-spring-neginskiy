@@ -28,7 +28,7 @@ public class CommentaryRepositoryJpa implements CommentaryRepository {
     @Override
     public List<Commentary> findByBookId(long id) {
         TypedQuery<Commentary> query = em.createQuery(
-                "select c from Commentary c where c.book.id=:id",
+                "select c from Commentary c join fetch c.book where c.book.id=:id",
                 Commentary.class
         );
         query.setParameter("id", id);
