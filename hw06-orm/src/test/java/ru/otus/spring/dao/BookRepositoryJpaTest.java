@@ -5,12 +5,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.repository.BookRepositoryJpa;
-import ru.otus.spring.repository.CommentaryRepositoryJpa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +24,15 @@ class BookRepositoryJpaTest {
     @Autowired
     private BookRepositoryJpa bookRepository;
 
+    @Autowired
+    private TestEntityManager em;
+
     @DisplayName("корректно добавлять книгу в БД")
     @Test
     void shouldInsertBook() {
         Book book = new Book(4L, "New book title", new Author(1L, "Miguel De Cervantes"), new Genre(2L, "Programming"));
         bookRepository.save(book);
-        Book actualBook = bookRepository.findById(4L).get();
+        Book actualBook = em.find(Book.class, 4L);
         Assertions.assertThat(actualBook).isEqualTo(book);
     }
 
