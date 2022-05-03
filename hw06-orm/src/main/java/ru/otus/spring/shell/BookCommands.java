@@ -13,7 +13,6 @@ import ru.otus.spring.service.CommentaryService;
 import ru.otus.spring.service.InputOutputService;
 
 import java.util.List;
-import java.util.Map;
 
 @ShellComponent
 public class BookCommands {
@@ -37,7 +36,7 @@ public class BookCommands {
     @ShellMethod(value = "Show all books", key = {"book list", "all"})
     public void showAllBooks() {
         List<Book> books = bookService.getAll();
-        books.forEach(book -> ioService.output(book.toString()));
+        books.forEach(ioService::output);
     }
 
     @ShellMethod(value = "Add book to library", key = {"add"})
@@ -47,7 +46,7 @@ public class BookCommands {
 
     @ShellMethod(value = "Get book by Id", key = {"get by id", "get"})
     public void getBookById(@ShellOption long id) {
-        ioService.output(bookService.getById(id).toString());
+        ioService.output(bookService.getById(id));
     }
 
     @ShellMethod(value = "Delete book by Id", key = {"delete by id", "del"})
@@ -74,7 +73,7 @@ public class BookCommands {
         ioService.output("Enter book title to search");
         String name = ioService.input();
         List<Book> allBooks = bookService.getByName(name);
-        allBooks.forEach(book -> ioService.output(book.toString()));
+        allBooks.forEach(ioService::output);
     }
 
     @ShellMethod(value = "Add comment to book by Id", key = {"add comment by book id", "addcom"})
@@ -88,7 +87,7 @@ public class BookCommands {
         long id = ioService.inputInt();
         List<Commentary> allComments = commentaryService.getByBookId(id);
         ioService.output("Commentaries for book '" + bookService.getById(id).getTitle() + "':\r\n");
-        allComments.forEach(comment -> ioService.output(comment.toString()));
+        allComments.forEach(ioService::output);
     }
 
     @ShellMethod(value = "Delete comment by Id", key = {"delete comment by id", "delcom"})
@@ -107,10 +106,10 @@ public class BookCommands {
         commentaryService.updateTextById(id, text);
     }
 
-    @ShellMethod(value = "Show all authors and count of books", key = {"author list", "allaut"})
+    @ShellMethod(value = "Show all authors", key = {"author list", "allaut"})
     public void showAllAuthors() {
         List<Author> authors = authorService.getAll();
-        authors.forEach(author -> ioService.output(author.toString()));
+        authors.forEach(ioService::output);
     }
 
     @ShellMethod(value = "Show all books by author id", key = {"book list by author id", "allba"})

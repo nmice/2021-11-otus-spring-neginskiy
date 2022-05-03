@@ -4,14 +4,11 @@ package ru.otus.spring.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "author")
-@NamedEntityGraph(name = "book_entity_graph",attributeNodes = {@NamedAttributeNode("books")})
 @Entity
 public class Author {
 
@@ -21,9 +18,6 @@ public class Author {
 
     @Column(name = "name", unique = true)
     private String name;
-
-    @OneToMany(mappedBy = "author",fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    private List<Book> books;
 
     public Author(Long id, String name) {
         this.id = id;
@@ -57,8 +51,7 @@ public class Author {
     public String toString() {
         return "Author{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", books size=" + books.size() +
+                ", name='" + name +
                 '}';
     }
 }
