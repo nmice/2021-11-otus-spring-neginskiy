@@ -36,7 +36,8 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public Book getById(long id) {
-        return bookRepository.findById(id).get();
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Book with id %d not found", id)));
     }
 
     @Override

@@ -5,8 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.repository.GenreRepository;
 
-import java.util.Optional;
-
 @Service
 public class GenreServiceImpl implements GenreService {
 
@@ -24,8 +22,9 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Genre> getById(long id) {
-        return genreRepository.findById(id);
+    public Genre getById(long id) {
+        return genreRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Genre with id %d not found", id)));
     }
 
     @Override
