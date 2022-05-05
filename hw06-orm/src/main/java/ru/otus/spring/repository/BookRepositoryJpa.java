@@ -15,7 +15,12 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public Book save(Book book) {
-        return em.merge(book);
+        if (book.getId() == null) {
+            em.persist(book);
+            return book;
+        } else {
+            return em.merge(book);
+        }
     }
 
     @Override
