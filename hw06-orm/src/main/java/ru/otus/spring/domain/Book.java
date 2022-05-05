@@ -50,21 +50,16 @@ public class Book {
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
         if (!Objects.equals(id, book.id)) return false;
-        if (!Objects.equals(title, book.title)) return false;
-        if (!Objects.equals(author, book.author)) return false;
-        return Objects.equals(genre, book.genre);
+        return Objects.equals(title, book.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author, genre);
+        return Objects.hash(id, title);
     }
 
     @Override
     public String toString() {
-        return id +
-                " Title: " + title +
-                ". Author: " + author.getName() +
-                ". Genre: " + genre.getName();
+        return id + " Title: " + title;
     }
 }
