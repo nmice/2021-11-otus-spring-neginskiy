@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CommentaryService {
 
-    Commentary insert(Commentary commentary);
+    Commentary save(Commentary commentary);
 
     List<Commentary> getByBookId(long id);
 

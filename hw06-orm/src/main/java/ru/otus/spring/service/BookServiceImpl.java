@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book insert(Book book) {
+    public Book save(Book book) {
         return bookRepository.save(book);
     }
 
@@ -76,7 +76,7 @@ public class BookServiceImpl implements BookService {
         Genre genre = genreService.findByName(genreName);
         if (genre == null) genre = new Genre(genreName);
         Book book = new Book(title, author, genre);
-        insert(book);
+        save(book);
     }
 
     @Override

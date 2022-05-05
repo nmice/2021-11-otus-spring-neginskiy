@@ -24,7 +24,7 @@ public class CommentaryServiceImpl implements CommentaryService {
 
     @Override
     @Transactional
-    public Commentary insert(Commentary commentary) {
+    public Commentary save(Commentary commentary) {
         return commentaryRepository.save(commentary);
     }
 
@@ -55,7 +55,7 @@ public class CommentaryServiceImpl implements CommentaryService {
             ioService.output("Enter comment for book - " + book.getTitle());
             String commentText = ioService.input();
             Commentary commentary = new Commentary(commentText, book);
-            insert(commentary);
+            save(commentary);
         } else {
             ioService.output("Book for id: " + bookId + " not found.");
         }
