@@ -1,5 +1,7 @@
 package ru.otus.spring.service;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
@@ -10,6 +12,7 @@ import ru.otus.spring.repository.BookRepository;
 import java.util.List;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
@@ -73,9 +76,13 @@ public class BookServiceImpl implements BookService {
         ioService.output("Enter Author");
         String authorName = ioService.input();
         Author author = authorService.getByName(authorName);
-        if (author == null) author = new Author(authorName);
+        if (author == null) {
+            author = authorService.save(new Author(authorName));
+        }
         Genre genre = genreService.findByName(genreName);
-        if (genre == null) genre = new Genre(genreName);
+        if (genre == null) {
+            genre = genreService.save(new Genre(genreName));
+        }
         Book book = new Book(title, author, genre);
         save(book);
     }
