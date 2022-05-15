@@ -18,7 +18,7 @@ public interface BookService {
 
     void deleteById(long id);
 
-    void addNewBook();
+    void addNewBook(String title, String genreName, String authorName);
 
     long getCount();
 

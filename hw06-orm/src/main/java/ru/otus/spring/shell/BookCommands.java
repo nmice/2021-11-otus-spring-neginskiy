@@ -41,7 +41,13 @@ public class BookCommands {
 
     @ShellMethod(value = "Add book to library", key = {"add"})
     public void addBookToLibrary() {
-        bookService.addNewBook();
+        ioService.output("Enter book title");
+        String title = ioService.input();
+        ioService.output("Enter Genre");
+        String genreName = ioService.input();
+        ioService.output("Enter Author");
+        String authorName = ioService.input();
+        bookService.addNewBook(title, genreName, authorName);
     }
 
     @ShellMethod(value = "Get book by Id", key = {"get by id", "get"})
