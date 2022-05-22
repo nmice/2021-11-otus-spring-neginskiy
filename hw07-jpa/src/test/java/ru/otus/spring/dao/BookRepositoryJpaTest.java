@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
@@ -18,7 +17,6 @@ import java.util.List;
 
 @DisplayName("Repository для работы с книгами должен ")
 @DataJpaTest
-@Import(BookRepository.class)
 class BookRepositoryJpaTest {
 
     @Autowired
@@ -70,5 +68,14 @@ class BookRepositoryJpaTest {
         Assertions.assertThat(bookRepository.count()).isEqualTo(3);
         bookRepository.deleteById(1L);
         Assertions.assertThat(bookRepository.count()).isEqualTo(2);
+    }
+
+    @DisplayName("обновлять имя книги по Id")
+    @Test
+    void shouldCorrectUpdateBookNameById() {
+        Book b = em.find(Book.class, 1);
+        Assertions.assertThat(b.getTitle()).isEqualTo("Don Quixote");
+        bookRepository.updateNameById(1, "Dom Perignon");
+        Assertions.assertThat(b.getTitle()).isEqualTo("Dom Perignon");
     }
 }
