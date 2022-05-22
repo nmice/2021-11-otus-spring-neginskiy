@@ -25,6 +25,8 @@ class BookRepositoryJpaTest {
     @Autowired
     private TestEntityManager em;
 
+    private final String NEW_BOOK_NAME = "Dom Perignon";
+
     @DisplayName("корректно добавлять книгу в БД")
     @Test
     void shouldInsertBook() {
@@ -73,8 +75,8 @@ class BookRepositoryJpaTest {
     @DisplayName("обновлять имя книги по Id")
     @Test
     void shouldCorrectUpdateBookNameById() {
-        bookRepository.updateNameById(1L, "Dom Perignon");
-        Book bActual = em.find(Book.class, 1L);
-        Assertions.assertThat(bActual.getTitle()).isEqualTo("Dom Perignon");
+        bookRepository.updateNameById(1L, NEW_BOOK_NAME);
+        Book b = em.find(Book.class, 1L);
+        Assertions.assertThat(b.getTitle()).isEqualTo(NEW_BOOK_NAME);
     }
 }
