@@ -1,25 +1,17 @@
 package ru.otus.spring.repository;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import ru.otus.spring.domain.Book;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface BookRepository {
+public interface BookRepository extends CrudRepository<Book, Long> {
 
-    Book save(Book book);
+    List<Book> findByTitle(String name);
 
-    Optional<Book> findById(long id);
-
-    List<Book> findAll();
-
-    List<Book> findByName(String name);
-
+    @Query("update Book b set b.title=:name where b.id=:id")
     void updateNameById(long id, String name);
 
-    void deleteById(long id);
-
-    long getCount();
-
-    List<Book> findAllBooksByAuthorId(long id);
+    List<Book> findByAuthorId(long id);
 }

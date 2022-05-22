@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
-import ru.otus.spring.repository.BookRepositoryJpa;
+import ru.otus.spring.repository.BookRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +18,11 @@ import java.util.List;
 
 @DisplayName("Repository для работы с книгами должен ")
 @DataJpaTest
-@Import(BookRepositoryJpa.class)
+@Import(BookRepository.class)
 class BookRepositoryJpaTest {
 
     @Autowired
-    private BookRepositoryJpa bookRepository;
+    private BookRepository bookRepository;
 
     @Autowired
     private TestEntityManager em;
@@ -39,7 +39,7 @@ class BookRepositoryJpaTest {
     @DisplayName("верно считать количество книг")
     @Test
     void shouldReturnCorrectBookCount() {
-        Assertions.assertThat(bookRepository.getCount()).isEqualTo(3);
+        Assertions.assertThat(bookRepository.count()).isEqualTo(3);
     }
 
     @DisplayName("получать все книги")
@@ -52,7 +52,7 @@ class BookRepositoryJpaTest {
         books.add(book1);
         books.add(book2);
         books.add(book3);
-        List<Book> actualBooks = bookRepository.findAll();
+        Iterable<Book> actualBooks = bookRepository.findAll();
         Assertions.assertThat(actualBooks).isEqualTo(books);
     }
 
@@ -67,8 +67,8 @@ class BookRepositoryJpaTest {
     @DisplayName("удалять нужную книгу из БД")
     @Test
     void shouldCorrectDeleteBookById() {
-        Assertions.assertThat(bookRepository.getCount()).isEqualTo(3);
+        Assertions.assertThat(bookRepository.count()).isEqualTo(3);
         bookRepository.deleteById(1L);
-        Assertions.assertThat(bookRepository.getCount()).isEqualTo(2);
+        Assertions.assertThat(bookRepository.count()).isEqualTo(2);
     }
 }

@@ -33,7 +33,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional(readOnly = true)
     public List<Author> getAll() {
-        return authorRepository.findAll();
+        return (List<Author>) authorRepository.findAll();
     }
 
     @Override

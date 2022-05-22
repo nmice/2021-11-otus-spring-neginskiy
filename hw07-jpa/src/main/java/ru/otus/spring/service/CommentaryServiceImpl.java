@@ -64,7 +64,7 @@ public class CommentaryServiceImpl implements CommentaryService {
 
     @Override
     public List<Commentary> getAllCommentariesByAuthorId(long id) {
-        return commentaryRepository.findAllCommentariesByAuthorId(id);
+        return commentaryRepository.findByBookAuthorId(id);
     }
 
     @Override

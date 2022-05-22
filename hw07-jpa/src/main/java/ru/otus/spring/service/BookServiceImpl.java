@@ -43,13 +43,13 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> getAll() {
-        return bookRepository.findAll();
+        return (List<Book>) bookRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Book> getByName(String name) {
-        return bookRepository.findByName(name);
+        return bookRepository.findByTitle(name);
     }
 
     @Override
@@ -82,12 +82,12 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public long getCount() {
-        return bookRepository.getCount();
+        return bookRepository.count();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Book> getAllBooksByAuthorId(long id) {
-        return bookRepository.findAllBooksByAuthorId(id);
+        return bookRepository.findByAuthorId(id);
     }
 }
