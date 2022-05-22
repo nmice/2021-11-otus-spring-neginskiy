@@ -17,5 +17,6 @@
         <module>hw04-shell</module>
         <module>hw05-jdbc</module>
         <module>hw06-orm</module>
+        <module>hw07-jpa</module>
     </modules>
 </project>
