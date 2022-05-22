@@ -73,9 +73,8 @@ class BookRepositoryJpaTest {
     @DisplayName("обновлять имя книги по Id")
     @Test
     void shouldCorrectUpdateBookNameById() {
-        Book b = em.find(Book.class, 1);
-        Assertions.assertThat(b.getTitle()).isEqualTo("Don Quixote");
-        bookRepository.updateNameById(1, "Dom Perignon");
-        Assertions.assertThat(b.getTitle()).isEqualTo("Dom Perignon");
+        bookRepository.updateNameById(1L, "Dom Perignon");
+        Book bActual = em.find(Book.class, 1L);
+        Assertions.assertThat(bActual.getTitle()).isEqualTo("Dom Perignon");
     }
 }
