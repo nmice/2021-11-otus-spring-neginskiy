@@ -8,7 +8,7 @@ public interface CommentaryService {
 
     Commentary save(Commentary commentary);
 
-    List<Commentary> getByBookId(long id);
+    List<Commentary> getAllCommentariesByBookId(long id);
 
     void updateTextById(long id, String text);
 

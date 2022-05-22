@@ -91,7 +91,7 @@ public class BookCommands {
     public void showAllCommentsToBookById() {
         ioService.output("Enter book Id to show comments");
         long id = ioService.inputInt();
-        List<Commentary> allComments = commentaryService.getByBookId(id);
+        List<Commentary> allComments = commentaryService.getAllCommentariesByBookId(id);
         ioService.output("Commentaries for book '" + bookService.getById(id).getTitle() + "':\r\n");
         allComments.forEach(ioService::output);
     }

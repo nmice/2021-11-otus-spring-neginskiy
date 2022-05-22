@@ -30,7 +30,8 @@ public class CommentaryServiceImpl implements CommentaryService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Commentary> getByBookId(long id) {
+    public List<Commentary> getAllCommentariesByBookId(long id) {
+        Book book = bookService.getById(id);
         return commentaryRepository.findByBookId(id);
     }
 
